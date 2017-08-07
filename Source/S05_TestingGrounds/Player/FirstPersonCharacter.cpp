@@ -5,6 +5,7 @@
 #include "GameFramework/InputSettings.h"
 #include "Kismet/HeadMountedDisplayFunctionLibrary.h"
 #include "MotionControllerComponent.h"
+#include "../Weapons/Gun.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -72,7 +73,12 @@ void AFirstPersonCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	//Attach gun mesh component to Skeleton, doing it here because the skeleton is not yet created in the constructor
-	//FP_Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+	if (GunBlueprint == NULL) {
+		UE_LOG(LogTemp, Warning, TEXT("GunBlueprint is missing"))
+		return;
+	}
+	Gun = GetWorld()->SpawnActor<AGun>(GunBlueprint);
+	Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
 
 	// Show or hide the two versions of the gun based on whether or not we're using motion controllers.
 	if (bUsingMotionControllers)
