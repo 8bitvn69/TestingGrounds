@@ -62,6 +62,7 @@ public:
 
 private:
 	AGun* Gun;
+	UInputComponent* InputComponent;
 
 protected:
 
