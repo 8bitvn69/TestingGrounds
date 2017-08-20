@@ -2,6 +2,7 @@
 
 #include "S05_TestingGrounds.h"
 #include "Tile.h"
+#include "DrawDebugHelpers.h"
 
 
 // Sets default values
@@ -31,6 +32,8 @@ void ATile::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	CastSphere(GetActorLocation(), 300.f);
+	CastSphere(GetActorLocation() + FVector(0.f, 0.f, 1000.f), 300.f);
 }
 
 // Called every frame
@@ -40,3 +43,19 @@ void ATile::Tick(float DeltaTime)
 
 }
 
+bool ATile::CastSphere(FVector Location, float Radius) {
+	FHitResult HitResult;
+	bool HasHit = GetWorld()->SweepSingleByChannel(
+		HitResult,
+		Location,
+		Location,
+		FQuat::Identity,
+		ECollisionChannel::ECC_Camera,
+		FCollisionShape::MakeSphere(Radius)
+	);
+
+	FColor ResultColor = HasHit ? FColor::Red : FColor::Blue;
+	DrawDebugSphere(GetWorld(), Location, Radius, 100, ResultColor, true, 300.f);
+
+	return HasHit;
+}
