@@ -21,6 +21,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UFUNCTION(BlueprintCallable, Category = "Pool")
+	void SetPool(class UActorPool* InPool);
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -32,4 +35,5 @@ private:
 
 	bool IsCanSpawnAtLocation(FVector Location, float Radius);
 	
+	class UActorPool* Pool;
 };

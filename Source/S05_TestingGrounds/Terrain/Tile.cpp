@@ -3,6 +3,7 @@
 #include "S05_TestingGrounds.h"
 #include "Tile.h"
 #include "DrawDebugHelpers.h"
+#include "ActorPool.h"
 
 
 // Sets default values
@@ -62,6 +63,11 @@ void ATile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ATile::SetPool(UActorPool* InPool) {
+	UE_LOG(LogTemp, Warning, TEXT("[%s] Setting Pool %s"), *(this->GetName()), *(InPool->GetName()))
+	Pool = InPool;
 }
 
 bool ATile::IsCanSpawnAtLocation(FVector Location, float Radius) {
