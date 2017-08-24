@@ -26,6 +26,12 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Pool")
 	void SetPool(class UActorPool* InPool);
 
+	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
+	FVector MinExtent;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
+	FVector MaxExtent;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

@@ -12,6 +12,8 @@ ATile::ATile()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	MinExtent = FVector(0.f, -2000.f, 0.f);
+	MaxExtent = FVector(4000.f, 2000.f, 0.f);
 }
 
 void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int32 MinSpawn, int32 MaxSpawn, float Radius, float MinScale, float MaxScale) {
@@ -28,9 +30,7 @@ void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int32 MinSpawn, int32 MaxSp
 }
 
 bool ATile::IsFindEmptyLocation(FVector& OutLocation, float Radius) {
-	FVector Min(0.f, -2000.f, 0.f);
-	FVector Max(4000.f, 2000.f, 0.f);
-	FBox Bounds(Min, Max);
+	FBox Bounds(MinExtent, MaxExtent);
 	const int32 MAX_ATTEMPTS = 100;
 
 	for (int32 i = 0; i < MAX_ATTEMPTS; i++) {
@@ -79,10 +79,12 @@ void ATile::SetPool(UActorPool* InPool) {
 void ATile::PositionNavMeshBoundsVolume() {
 	NavMeshBoundsVolume = Pool->Checkout();
 	if (NavMeshBoundsVolume == NULL) {
-		UE_LOG(LogTemp, Warning, TEXT("Not enough actors in pool."))
+		UE_LOG(LogTemp, Warning, TEXT("[%s] Not enough actors in pool."), *(this->GetName()))
 
 		return;
 	}
+
+	UE_LOG(LogTemp, Warning, TEXT("[%s] Checked out: {%s}"), *this->GetName(), *NavMeshBoundsVolume->GetName());
 	NavMeshBoundsVolume->SetActorLocation(this->GetActorLocation());
 }
 
