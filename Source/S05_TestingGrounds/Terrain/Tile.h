@@ -26,6 +26,9 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Pool")
 	void SetPool(class UActorPool* InPool);
 
+	UPROPERTY(EditDefaultsOnly, Category = "Navigation")
+	FVector NavigationBoundsOffset;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
 	FVector MinExtent;
 
